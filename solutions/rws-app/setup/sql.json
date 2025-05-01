@@ -1,0 +1,357 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SQL Query API",
+    "description": "API for executing SQL queries against a database",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/sales/regions": {
+      "post": {
+        "summary": "Get Sales by Region",
+        "description": "Retrieves sales data grouped by region or for a specific region",
+        "operationId": "getSalesByRegion",
+        "requestBody": {
+          "description": "Region filter parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Sales data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SQLQueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sales/by-category": {
+      "post": {
+        "summary": "Get Sales by Product Category",
+        "description": "Retrieves sales data grouped by product category",
+        "operationId": "getSalesByCategory",
+        "requestBody": {
+          "description": "Empty request body (no parameters needed)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Sales by category retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ProductCategory": { "type": "string" },
+                          "TotalOrders": { "type": "integer" },
+                          "TotalUnitsSold": { "type": "integer" },
+                          "TotalRevenue": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sales/by-channel": {
+      "post": {
+        "summary": "Get Sales by Channel",
+        "description": "Retrieves sales data grouped by sales channel",
+        "operationId": "getSalesByChannel",
+        "requestBody": {
+          "description": "Empty request body (no parameters needed)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Sales by channel retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "SalesChannel": { "type": "string" },
+                          "TotalOrders": { "type": "integer" },
+                          "TotalUnitsSold": { "type": "integer" },
+                          "TotalRevenue": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customers/top": {
+      "post": {
+        "summary": "Get Top Customers",
+        "description": "Retrieves top customers by total spend",
+        "operationId": "getTopCustomers",
+        "requestBody": {
+          "description": "Limit parameter for number of customers",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "type": "integer",
+                    "description": "Number of top customers to retrieve",
+                    "default": 10,
+                    "minimum": 1,
+                    "maximum": 100
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Top customers retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "CustomerName": { "type": "string" },
+                          "CustomerType": { "type": "string" },
+                          "RegionName": { "type": "string" },
+                          "Country": { "type": "string" },
+                          "TotalOrders": { "type": "integer" },
+                          "TotalSpent": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/performance": {
+      "post": {
+        "summary": "Get Product Performance",
+        "description": "Retrieves performance metrics for all products",
+        "operationId": "getProductPerformance",
+        "requestBody": {
+          "description": "Empty request body (no parameters needed)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Product performance metrics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ProductName": { "type": "string" },
+                          "ProductCategory": { "type": "string" },
+                          "ProductLine": { "type": "string" },
+                          "TotalOrders": { "type": "integer" },
+                          "TotalUnitsSold": { "type": "integer" },
+                          "TotalRevenue": { "type": "number" },
+                          "AverageOrderValue": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SQLQueryRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "SQL query to execute",
+            "example": "SELECT * FROM SalesData WHERE Region = 'Europe' LIMIT 10"
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Optional parameters for the SQL query",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "region": "Europe",
+              "limit": "10"
+            }
+          }
+        },
+        "required": ["query"]
+      },
+      "RegionRequest": {
+        "type": "object",
+        "properties": {
+          "region_name": {
+            "type": "string",
+            "description": "Optional name of the region to filter by. If not provided, data for all regions will be returned",
+            "example": "Europe"
+          }
+        }
+      },
+      "SQLQueryResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "description": "Query results",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message",
+            "example": "Invalid SQL syntax"
+          },
+          "details": {
+            "type": "string",
+            "description": "Detailed error information",
+            "example": "Syntax error near 'SELCT'"
+          }
+        }
+      }
+    }
+  }
+}
