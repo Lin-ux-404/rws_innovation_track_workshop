@@ -1,0 +1,101 @@
+{
+    "name": "documents-index",
+    "fields": [
+        {
+            "name": "id",
+            "type": "Edm.String",
+            "key": true,
+            "filterable": true
+        },
+        {
+            "name": "title",
+            "type": "Edm.String",
+            "searchable": true,
+            "retrievable": true,
+            "sortable": true,
+            "filterable": true,
+            "facetable": false
+        },
+        {
+            "name": "content",
+            "type": "Edm.String",
+            "searchable": true,
+            "retrievable": true,
+            "sortable": false,
+            "filterable": false,
+            "facetable": false
+        },
+        {
+            "name": "source",
+            "type": "Edm.String",
+            "searchable": true,
+            "retrievable": true,
+            "sortable": true,
+            "filterable": true,
+            "facetable": true
+        },
+        {
+            "name": "documentType",
+            "type": "Edm.String",
+            "searchable": true,
+            "retrievable": true,
+            "sortable": true,
+            "filterable": true,
+            "facetable": true
+        },
+        {
+            "name": "uploadTimestamp",
+            "type": "Edm.DateTimeOffset",
+            "searchable": false,
+            "retrievable": true,
+            "sortable": true,
+            "filterable": true,
+            "facetable": false
+        },
+        {
+            "name": "blobName",
+            "type": "Edm.String",
+            "searchable": false,
+            "retrievable": true,
+            "sortable": false,
+            "filterable": false,
+            "facetable": false
+        }
+    ],
+    "suggesters": [
+        {
+            "name": "sg",
+            "searchMode": "analyzingInfixMatching",
+            "sourceFields": ["title", "source", "documentType"]
+        }
+    ],
+    "semantic": {
+        "configurations": [
+            {
+                "name": "default",
+                "prioritizedFields": {
+                    "titleField": {
+                        "fieldName": "title"
+                    },
+                    "contentFields": [
+                        {
+                            "fieldName": "content"
+                        }
+                    ],
+                    "keywordsFields": [
+                        {
+                            "fieldName": "source"
+                        },
+                        {
+                            "fieldName": "documentType"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "corsOptions": {
+        "allowedOrigins": ["*"],
+        "maxAgeInSeconds": 60
+    }
+}

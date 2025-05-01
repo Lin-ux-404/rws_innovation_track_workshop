@@ -60,3 +60,4 @@ Thumbs.db
 shared/.env.json
 solutions/rws-app/setup/functions/sql/local.settings.json
 solutions/rws-app/setup/functions/weather/local.settings.json
+solutions/rws-app/setup/params.json

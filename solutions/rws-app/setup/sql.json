@@ -1,44 +1,62 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "SQL Query API",
-    "description": "API for executing SQL queries against a database",
+    "title": "Infrastructure Management API",
+    "description": "API for querying infrastructure assets and maintenance data",
     "version": "1.0.0"
   },
   "paths": {
-    "/sales/regions": {
+    "/infrastructure/critical": {
       "post": {
-        "summary": "Get Sales by Region",
-        "description": "Retrieves sales data grouped by region or for a specific region",
-        "operationId": "getSalesByRegion",
+        "summary": "Get critical infrastructure assets",
+        "description": "Retrieve infrastructure assets that require immediate attention based on status and safety ratings",
+        "operationId": "getCriticalAssets",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CriticalAssetsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/infrastructure/by-region": {
+      "post": {
+        "summary": "Get infrastructure assets by region",
+        "description": "Retrieve infrastructure assets filtered by region",
+        "operationId": "getAssetsByRegion",
         "requestBody": {
-          "description": "Region filter parameters",
+          "description": "Optional region name to filter by",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RegionRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "Sales data retrieved successfully",
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SQLQueryResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/AssetsByRegionResponse"
                 }
               }
             }
@@ -56,44 +74,18 @@
         }
       }
     },
-    "/sales/by-category": {
+    "/maintenance/active-projects": {
       "post": {
-        "summary": "Get Sales by Product Category",
-        "description": "Retrieves sales data grouped by product category",
-        "operationId": "getSalesByCategory",
-        "requestBody": {
-          "description": "Empty request body (no parameters needed)",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            }
-          },
-          "required": true
-        },
+        "summary": "Get active maintenance projects",
+        "description": "Retrieve all ongoing and planned maintenance projects",
+        "operationId": "getActiveProjects",
         "responses": {
           "200": {
-            "description": "Sales by category retrieved successfully",
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "ProductCategory": { "type": "string" },
-                          "TotalOrders": { "type": "integer" },
-                          "TotalUnitsSold": { "type": "integer" },
-                          "TotalRevenue": { "type": "number" }
-                        }
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/ActiveProjectsResponse"
                 }
               }
             }
@@ -111,44 +103,28 @@
         }
       }
     },
-    "/sales/by-channel": {
+    "/safety/inspections": {
       "post": {
-        "summary": "Get Sales by Channel",
-        "description": "Retrieves sales data grouped by sales channel",
-        "operationId": "getSalesByChannel",
+        "summary": "Get safety inspection reports",
+        "description": "Retrieve safety inspection reports filtered by criteria",
+        "operationId": "getSafetyInspections",
         "requestBody": {
-          "description": "Empty request body (no parameters needed)",
+          "description": "Filter criteria for safety inspections",
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {}
+                "$ref": "#/components/schemas/SafetyInspectionRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "Sales by channel retrieved successfully",
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "SalesChannel": { "type": "string" },
-                          "TotalOrders": { "type": "integer" },
-                          "TotalUnitsSold": { "type": "integer" },
-                          "TotalRevenue": { "type": "number" }
-                        }
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/SafetyInspectionResponse"
                 }
               }
             }
@@ -166,112 +142,18 @@
         }
       }
     },
-    "/customers/top": {
+    "/assets/statistics": {
       "post": {
-        "summary": "Get Top Customers",
-        "description": "Retrieves top customers by total spend",
-        "operationId": "getTopCustomers",
-        "requestBody": {
-          "description": "Limit parameter for number of customers",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "limit": {
-                    "type": "integer",
-                    "description": "Number of top customers to retrieve",
-                    "default": 10,
-                    "minimum": 1,
-                    "maximum": 100
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
+        "summary": "Get asset statistics",
+        "description": "Retrieve statistical overview of infrastructure assets",
+        "operationId": "getAssetStatistics",
         "responses": {
           "200": {
-            "description": "Top customers retrieved successfully",
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "CustomerName": { "type": "string" },
-                          "CustomerType": { "type": "string" },
-                          "RegionName": { "type": "string" },
-                          "Country": { "type": "string" },
-                          "TotalOrders": { "type": "integer" },
-                          "TotalSpent": { "type": "number" }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/products/performance": {
-      "post": {
-        "summary": "Get Product Performance",
-        "description": "Retrieves performance metrics for all products",
-        "operationId": "getProductPerformance",
-        "requestBody": {
-          "description": "Empty request body (no parameters needed)",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Product performance metrics retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "ProductName": { "type": "string" },
-                          "ProductCategory": { "type": "string" },
-                          "ProductLine": { "type": "string" },
-                          "TotalOrders": { "type": "integer" },
-                          "TotalUnitsSold": { "type": "integer" },
-                          "TotalRevenue": { "type": "number" },
-                          "AverageOrderValue": { "type": "number" }
-                        }
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/AssetStatisticsResponse"
                 }
               }
             }
@@ -292,48 +174,33 @@
   },
   "components": {
     "schemas": {
-      "SQLQueryRequest": {
-        "type": "object",
-        "properties": {
-          "query": {
-            "type": "string",
-            "description": "SQL query to execute",
-            "example": "SELECT * FROM SalesData WHERE Region = 'Europe' LIMIT 10"
-          },
-          "parameters": {
-            "type": "object",
-            "description": "Optional parameters for the SQL query",
-            "additionalProperties": {
-              "type": "string"
-            },
-            "example": {
-              "region": "Europe",
-              "limit": "10"
-            }
-          }
-        },
-        "required": ["query"]
-      },
       "RegionRequest": {
         "type": "object",
         "properties": {
           "region_name": {
             "type": "string",
-            "description": "Optional name of the region to filter by. If not provided, data for all regions will be returned",
-            "example": "Europe"
+            "description": "Name of the region to filter by"
           }
         }
       },
-      "SQLQueryResponse": {
+      "SafetyInspectionRequest": {
         "type": "object",
         "properties": {
-          "results": {
-            "type": "array",
-            "description": "Query results",
-            "items": {
-              "type": "object",
-              "additionalProperties": true
-            }
+          "asset_type": {
+            "type": "string",
+            "description": "Type of asset to filter by"
+          },
+          "min_safety_rating": {
+            "type": "integer",
+            "description": "Minimum safety rating (1-5)",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "max_safety_rating": {
+            "type": "integer",
+            "description": "Maximum safety rating (1-5)",
+            "minimum": 1,
+            "maximum": 5
           }
         }
       },
@@ -341,14 +208,196 @@
         "type": "object",
         "properties": {
           "error": {
-            "type": "string",
-            "description": "Error message",
-            "example": "Invalid SQL syntax"
+            "type": "string"
           },
           "details": {
-            "type": "string",
-            "description": "Detailed error information",
-            "example": "Syntax error near 'SELCT'"
+            "type": "string"
+          }
+        }
+      },
+      "CriticalAssetsResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "AssetID": {
+                  "type": "integer"
+                },
+                "AssetName": {
+                  "type": "string"
+                },
+                "AssetType": {
+                  "type": "string"
+                },
+                "Status": {
+                  "type": "string"
+                },
+                "RegionName": {
+                  "type": "string"
+                },
+                "SafetyRating": {
+                  "type": "integer"
+                },
+                "InspectionDate": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          }
+        }
+      },
+      "AssetsByRegionResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "RegionName": {
+                  "type": "string"
+                },
+                "TotalAssets": {
+                  "type": "integer"
+                },
+                "CriticalAssets": {
+                  "type": "integer"
+                },
+                "UnderMaintenance": {
+                  "type": "integer"
+                },
+                "AvgSafetyRating": {
+                  "type": "number",
+                  "format": "float"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ActiveProjectsResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ProjectID": {
+                  "type": "integer"
+                },
+                "ProjectName": {
+                  "type": "string"
+                },
+                "ProjectType": {
+                  "type": "string"
+                },
+                "StartDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "EndDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "Budget": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "Status": {
+                  "type": "string"
+                },
+                "Priority": {
+                  "type": "string"
+                },
+                "AssetName": {
+                  "type": "string"
+                },
+                "AssetType": {
+                  "type": "string"
+                },
+                "RegionName": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SafetyInspectionResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "InspectionID": {
+                  "type": "integer"
+                },
+                "AssetName": {
+                  "type": "string"
+                },
+                "AssetType": {
+                  "type": "string"
+                },
+                "RegionName": {
+                  "type": "string"
+                },
+                "InspectionDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "InspectionType": {
+                  "type": "string"
+                },
+                "SafetyRating": {
+                  "type": "integer"
+                },
+                "Findings": {
+                  "type": "string"
+                },
+                "RecommendedActions": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "AssetStatisticsResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "AssetType": {
+                  "type": "string"
+                },
+                "TotalAssets": {
+                  "type": "integer"
+                },
+                "AvgAge": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "CriticalCount": {
+                  "type": "integer"
+                },
+                "UnderMaintenanceCount": {
+                  "type": "integer"
+                },
+                "OperationalCount": {
+                  "type": "integer"
+                }
+              }
+            }
           }
         }
       }
