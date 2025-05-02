@@ -55,30 +55,29 @@ def create_fixed_workflow_chat(agents, workflow_sequence, max_iterations=None):
     for name in workflow_sequence:
         if name not in agent_map:
             raise ValueError(f"Agent '{name}' in workflow not found in provided agents")
-    
-    # Create a custom selection strategy class
+      # Create a custom selection strategy class
     class FixedWorkflowStrategy(SelectionStrategy):
         def __init__(self, workflow_sequence):
             super().__init__()
-            self.workflow_sequence = workflow_sequence
-            self.counter = 0
-            self.has_selected = False
+            # Store workflow sequence as a private attribute to avoid Pydantic validation
+            self._workflow_sequence = workflow_sequence
+            self._counter = 0
+            self._has_selected = False
         
         async def next(self, agents, messages):
             agent = agent_map[
-                self.workflow_sequence[self.counter % len(self.workflow_sequence)]
+                self._workflow_sequence[self._counter % len(self._workflow_sequence)]
             ]
-            self.counter += 1
+            self._counter += 1
             print(f"Selected: {agent.name}")
             
-            self.has_selected = True
+            self._has_selected = True
             return agent
-    
-    # Set maximum iterations if not specified
+      # Set maximum iterations if not specified
     if max_iterations is None:
         max_iterations = len(workflow_sequence)
     
-    fixed_workflow_strategy = FixedWorkflowStrategy(workflow_sequence=workflow_sequence)
+    fixed_workflow_strategy = FixedWorkflowStrategy(workflow_sequence)
     
     # Create and return the AgentGroupChat
     return AgentGroupChat(
