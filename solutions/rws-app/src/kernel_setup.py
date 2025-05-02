@@ -14,6 +14,7 @@ def create_kernel_with_service(service_id, temperature=0.7):
     Returns:
         A configured kernel with the specified service
     """
+    
     # Load environment variables if they haven't been loaded yet
     if not os.getenv("AZURE_OPENAI_API_KEY"):
         load_dotenv()
