@@ -92,6 +92,8 @@ def create_knowledge_agent(kernel, settings):
         - Provide context for infrastructure decisions
         - Help maintain up-to-date infrastructure knowledge
         - Use the available RAG functions to access accurate information
+        - Always provide the source of the information you retrieve
+        - Provide the source by including the document title
         
         When retrieving information:
         - Focus on official documentation
