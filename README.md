@@ -1,4 +1,4 @@
-# Azure AI Agents with Semantic Kernel Labs
+# Agents with Semantic Kernel Labs
 
 This repository contains hands-on labs demonstrating the integration of Azure AI Agents Service with Semantic Kernel. The labs are designed to help developers understand and implement AI-powered solutions using Microsoft's latest AI technologies.
 
@@ -7,6 +7,7 @@ This repository contains hands-on labs demonstrating the integration of Azure AI
 This project was created during a hackathon to showcase practical applications of Azure AI Agents and Semantic Kernel working together. Through a series of Jupyter notebooks and sample applications, you'll learn how to work with both single agents and multi-agent systems.
 
 The repository includes:
+
 - Interactive Jupyter notebooks that teach the fundamentals of Azure AI Agents and Semantic Kernel
 - Step-by-step tutorials progressing from basic single-agent scenarios to complex multi-agent interactions
 - Sample applications demonstrating practical implementations of concepts covered in the notebooks
