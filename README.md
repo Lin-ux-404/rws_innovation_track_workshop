@@ -51,7 +51,6 @@ The repository includes:
 ## Getting Started
 
 1. Clone this repository
-2. run `az login`
 2. Configure your Azure credentials
 3. Follow the lab instructions in each directory
 
