@@ -35,24 +35,18 @@ The repository includes:
     - Agent collaboration using AgentGroupChat
     - Specialized agent roles and team design
     - Agent selection and termination strategies
-
-- `sample_apps/`: Reference implementations demonstrating concepts from labs
-  - `single_agent/`: PDF-enabled AI Assistant application
-    - Interactive chat interface using Streamlit
-    - PDF document analysis and querying
-    - Chat history management
-    - Plugin integration for document processing
-  - `multi_agent/`: Advanced multi-agent implementation
-    - Collaborative agent system with specialized roles
-    - Complex conversation orchestration
-    - Advanced agent selection strategies
-  - `solutions/`: Complete reference implementations
-
-- `data/`: Contains sample PDF documents for testing
-  - employees.pdf
-  - Expanded_Product_Sales_Data.pdf
-  - Expenses_Policy.pdf
-  - product_data.pdf
+    
+- `solutions/`: Practical implementations showcasing concepts from the labs
+  - `rws-app/`: Complete multi-agent application for infrastructure management
+    - `setup/`: Infrastructure deployment with Azure Bicep templates and configuration files
+      - Infrastructure as Code (IaC) using Bicep for Azure resources
+      - Azure Functions for backend services (SQL, Weather)
+      - Configuration for Azure API Management and Azure Cognitive Search
+    - `src/`: Source code for the multi-agent system
+      - Specialized agents for infrastructure analysis, water management, and business advising
+      - RAG plugin for knowledge retrieval from documents
+      - API plugin for connecting to backend services
+      - Agent collaboration frameworks for sequential and custom workflows
 
 ## Getting Started
 
