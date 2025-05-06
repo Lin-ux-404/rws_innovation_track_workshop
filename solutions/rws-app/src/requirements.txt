@@ -16,3 +16,7 @@ openai>=1.76.0
 semantic-kernel>=1.29.0
 pyodbc>=4.0.39
 SQLAlchemy>=2.0.28
+azure-monitor-opentelemetry
+azure-monitor-opentelemetry-exporter
+opentelemetry-instrumentation>=0.53b1
+opentelemetry-sdk>=1.22.0

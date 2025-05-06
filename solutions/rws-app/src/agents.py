@@ -1,6 +1,8 @@
 from semantic_kernel.agents import ChatCompletionAgent
 from semantic_kernel.functions import KernelArguments
+from instrumentation import track_agent_action, AgentActionContext
 
+@track_agent_action
 def create_infrastructure_analyst_agent(kernel, settings):
     """Create an Infrastructure Analyst agent that can analyze asset conditions and safety."""
     return ChatCompletionAgent(
@@ -25,6 +27,7 @@ def create_infrastructure_analyst_agent(kernel, settings):
         arguments=KernelArguments(settings=settings)
     )
 
+@track_agent_action
 def create_water_management_expert_agent(kernel, settings):
     """Create a Water Management Expert agent that can provide insights on water infrastructure."""
     return ChatCompletionAgent(
@@ -51,6 +54,7 @@ def create_water_management_expert_agent(kernel, settings):
         arguments=KernelArguments(settings=settings)
     )
 
+@track_agent_action
 def create_strategic_advisor_agent(kernel, settings):
     """Create a Strategic Advisor agent that can provide long-term infrastructure recommendations."""
     return ChatCompletionAgent(
@@ -78,6 +82,7 @@ def create_strategic_advisor_agent(kernel, settings):
         arguments=KernelArguments(settings=settings)
     )
 
+@track_agent_action
 def create_knowledge_agent(kernel, settings):
     """Create a Knowledge Agent that can access and retrieve information from the knowledge base."""
     return ChatCompletionAgent(
@@ -107,6 +112,7 @@ def create_knowledge_agent(kernel, settings):
         arguments=KernelArguments(settings=settings)
     )
 
+@track_agent_action
 def create_research_synthesis_agent(kernel, settings):
     """Create a Research Synthesis Agent that combines knowledge retrieval with infrastructure analysis."""
     return ChatCompletionAgent(
