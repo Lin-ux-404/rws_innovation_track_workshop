@@ -110,20 +110,35 @@ async def run_group_chat(chat, user_message):
     
     # Track which agent is speaking for formatting
     current_agent = None
+    agent_response_counter = {}
     
     # Invoke the chat and process agent responses
     try:
         async for response in chat.invoke():
             if response is not None and response.name:
-                # Add a separator between different agents
+                # Add a clear separator between different agents
                 if current_agent != response.name:
                     current_agent = response.name
-                    print(f"\n## {response.name}:\n{response.content}")
+                    
+                    # Initialize or increment counter for this agent
+                    if response.name not in agent_response_counter:
+                        agent_response_counter[response.name] = 1
+                    else:
+                        agent_response_counter[response.name] += 1
+                    
+                    # Print clear agent header with decorative elements
+                    print(f"\n{'='*80}")
+                    print(f"AGENT: {response.name} (Response #{agent_response_counter[response.name]})")
+                    print(f"{'='*80}\n")
+                    print(f"{response.content}")
                 else:
                     # Same agent continuing
+                    print(f"\n... {response.name} continues ...\n")
                     print(f"{response.content}")
         
-        print("\n=== Agent Collaboration Complete ===\n")
+        print(f"\n{'='*80}")
+        print(f"=== Agent Collaboration Complete ===")
+        print(f"{'='*80}\n")
     except Exception as e:
         print(f"Error during chat invocation: {str(e)}")
     
